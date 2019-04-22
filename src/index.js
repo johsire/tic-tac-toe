@@ -5,6 +5,7 @@ import './index.css';
 
 // Square Component
 class Square extends React.Component {
+
   /* We use constroctor to initialize state in our Components.
      Add 'this.state' in our 'constractor method'.
      this.state is private to the component its defined in. */
@@ -18,17 +19,31 @@ class Square extends React.Component {
     // super(props);
 
     /* Components use state to 'remember' things.
-       In our case we want our component to rem it was clicked on. */
+       In our case we want our component to remember it was clicked on. */
 
     /* this.state = {
       value: null,
     };
   } */
 
+
+  // When a Square is clicked, the onClick function provided by the Board is called. Here’s a review of how this is achieved:
+
+  // 1) The onClick prop on the built-in DOM <button> component tells React to set up a click event listener.
+  // 2) When the button is clicked, React will call the onClick event handler that is defined in Square’s render() method.
+  // 3) This event handler calls this.props.onClick(). The Square’s onClick prop was specified by the Board.
+  // 4) Since the Board passed onClick={() => this.handleClick(i)} to Square, the Square calls this.handleClick(i) when clicked.
+
+  /* Note
+    The DOM <button> element’s onClick attribute has a special meaning to React bcz it's a built-in component. For custom
+    components like Square, the naming is up to you. We could give any name to the Square’s onClick prop or Board’s handleClick
+    method, & the code would work the same. In React, it’s conventional to use on[Event] names for props which represent events
+    & handle[Event] for the methods which handle the events. */
+
   render() {
     return (
-     /* if we forget to write pass the arrow fn () => it will result in the alert being
-      each time the components re-renders.This is a common mistake.*/
+     /* if we forget to write pass the arrow fn () => it will result in the alert being each time the components re-renders.
+        This is a common mistake.*/
 
       <button
         className="square"
@@ -37,8 +52,7 @@ class Square extends React.Component {
          After the update, the Square's this.state.value will be set to 'X' */
 
         onClick={() => this.props.onClick({ value: 'X' })}
-        /* When you call setState in a component, React automatically updates the child
-         components inside of it too. */
+        /* When you call setState in a component, React automatically updates the child components inside of it too. */
       >
       {/* Now we’re passing down two props from Board to Square: 'value' & 'onClick'.
       The onClick prop is a fn that Square can call when clicked. */}
@@ -51,16 +65,31 @@ class Square extends React.Component {
 
 // Board Component
 class Board extends React.Component {
+
   /*Currently, each Square component maintains the game’s state. To check for a winner, we’ll
     maintain the value of each of the 9 squares in one location - Lifting State Up to parent
     Board Comp instead of in each Sqare- child. Board(parent) will then tell each Sqare(Child)
     what to display by passing a prop.*/
+
   constructor(props) {
     super(props);
       this.state = {
         squares: Array(9).fill(null),
       };
   }
+
+  // Our handleClick Custom method- it can have any name & code would still work the same;
+
+  /* Since the Square components no longer maintain state, the Square components receive values
+     from the Board component and inform the Board component when they’re clicked. In React terms,
+     the Square components are now controlled components. The Board has full control over them. */
+
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({ squares: squares });
+  }
+
   /*To collect data from multiple children, or to have two child components communicate with each other,
   you need to declare the shared state in their parent component instead. The parent component can pass
   the state back down to the children by using props; this keeps the child components in sync with each
@@ -68,12 +97,14 @@ class Board extends React.Component {
 
   renderSquare(i) {
     /*Each Square will now receive a value prop that will either be 'X', 'O', or null for empty squares.*/
+
     return (
       // added parentheses so that JS doesn’t insert a semicolon after return and break our code.
 
       /* We need to change what happens when a Square is clicked. The Board component now maintains which squares
       are filled. We need to create a way for the Square to update the Board’s state. Since state is considered to
       be private to a component that defines it, we cannot update the Board’s state directly from Square. */
+
       <Square
         value={this.state.squares[i]}
         /* we’ll pass down a fn from the Board to the Square, have Square call that fn when a square is clicked.*/
