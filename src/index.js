@@ -15,7 +15,7 @@ class Square extends React.Component {
     super(props);
     // Comp use state to 'remember' things.
     // In our case we want our comp to rem it was clicked on.
-    this.state= {
+    this.state = {
       value: null,
     };
   }
@@ -41,8 +41,24 @@ class Square extends React.Component {
 
 // Board Component
 class Board extends React.Component {
+  /*Currently, each Square component maintains the game’s state. To check for a winner, we’ll
+    maintain the value of each of the 9 squares in one location - Lifting State Up to parent
+    Board Comp instead of in each Sqare- child. Board(parent) will then tell each Sqare(Child)
+    what to display by passing a prop.*/
+  constructor(props) {
+    super(props);
+      this.state = {
+        squares: Array(9).fill(null),
+      };
+  }
+  /*To collect data from multiple children, or to have two child components communicate with each other,
+  you need to declare the shared state in their parent component instead. The parent component can pass
+  the state back down to the children by using props; this keeps the child components in sync with each
+  other and with the parent component. */
+
   renderSquare(i) {
-    return <Square value={i}/>;
+    /*Each Square will now receive a value prop that will either be 'X', 'O', or null for empty squares.*/
+    return <Square value={this.state.squares[i]} />;
   }
 
   render() {
