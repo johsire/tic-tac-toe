@@ -5,10 +5,35 @@ import './index.css';
 
 // Square Component
 class Square extends React.Component {
+  // We use constroctor to initialize state in our Components.
+  // Add 'this.state' in our 'constractor method'.
+  // this.state is private to the component its defined in.
+  constructor(props){
+    /*In JS classes, you need to always call super when defining
+     the constructor of a subclass. All React component classes that have
+     a constructor should start it with a super(props) call.*/
+    super(props);
+    // Comp use state to 'remember' things.
+    // In our case we want our comp to rem it was clicked on.
+    this.state= {
+      value: null,
+    };
+  }
+
   render() {
     return (
-      <button className="square">
-        {this.props.value}
+      // if we forget to write pass the arrow fn () => it will result in the alert being
+      // each time the components re-renders.This is a common mistake.
+      <button
+        className="square"
+        /* By calling 'this.setState' from an onClick handler in the Square's render mthd,
+          we tell React to re-render that Square everytime its '<button>' is clicked.
+         After the update, the Square's this.state.value will be set to 'X' */
+        onClick={() => this.setState({ value: 'X' })}
+        /* When you call setState in a component, React automatically updates the child
+         components inside of it too. */
+      >
+        {this.state.value}
       </button>
     );
   };
