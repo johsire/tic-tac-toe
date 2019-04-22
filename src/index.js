@@ -52,7 +52,7 @@ class Square extends React.Component {
          After the update, the Square's this.state.value will be set to 'X' */
 
         onClick={() => this.props.onClick({ value: 'X' })}
-        /* When you call setState in a component, React automatically updates the child components inside of it too. */
+        /*When you call setState in a component, React automatically updates the child components inside of it too.*/
       >
       {/* Now we’re passing down two props from Board to Square: 'value' & 'onClick'.
       The onClick prop is a fn that Square can call when clicked. */}
@@ -85,6 +85,10 @@ class Board extends React.Component {
      the Square components are now controlled components. The Board has full control over them. */
 
   handleClick(i) {
+
+    /* We call .slice() on handleClick to creat a clpy of the sqares array to modify instead of
+      modifying the existing array bcoz of Immutability */
+
     const squares = this.state.squares.slice();
     squares[i] = 'X';
     this.setState({ squares: squares });
