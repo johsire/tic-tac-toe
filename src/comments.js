@@ -1,5 +1,5 @@
 /*
-        !Why Immutability is Important
+                                    !WHY IMMUTABILITY IS IMPORTANT
 
     -In the previous code example, we suggested using the .slice() operator to create a copy
     of the squares array to modify instead of modifying the existing array.
@@ -55,7 +55,7 @@
 
 
 /**
- *              !Function Component
+ *                                !FUNCTION COMPONENT
  *
  ** We'll now change the Square to be a Function Component
 
@@ -70,8 +70,8 @@ returns what should be rendered.
 
 
 
- /**
-  *           !Taking Turns
+/**
+  *                                  !TAKING TURNS
   *
   * *We need to fix the obvious defect in our game: "O" can't be marked on the board.
   *
