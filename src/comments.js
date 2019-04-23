@@ -241,4 +241,24 @@ returns what should be rendered.
 **  Explicitly passing 'key={i}' silences the warning but has the same problems as array indices(index) & is not recommended in most cases.
 *
 *!  "Keys" don't need to be globally unique; they only need to be unique btwn components & their siblings.
+//=================================================================================================================================================
  */
+
+
+/**
+  *                                     !IMPLEMENTING TIME TRAVEL
+  *
+  * In our game's history, each past move has a unique ID associated with it: It's the sequential # of the move.
+  * The moves are never re-ordered, deleted, or inserted in the middle, so it's safe to use the move index as a "key".
+  *
+  * In the Game component's #render mthd, we can add the key as:
+  **            <li key={move}> & React's warning about "keys" should disappear.
+ *
+ *  "jumpTo mthd" is still undefined, so we're still getting an error for clicking any btns.
+ *  We'll add "stepNumber mthd" to the Game component's state to indicate which step we're currently viewing.
+ *
+ ** 1). Add stepNumber: 0 to the initial state in Game’s constructor:
+ *
+ ** 2.a). Define the jumpTo method in Game to update that stepNumber.
+ **   b). Set xIsNext to true if the number that we’re changing stepNumber to is even.
+  */

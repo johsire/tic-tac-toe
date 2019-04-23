@@ -206,6 +206,9 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null),
       }],
+
+      //!1). Add stepNumber: 0 to the initial state in Game’s constructor:
+      stepNumber: 0,
       xIsNext: true,
     };
   }
@@ -233,6 +236,17 @@ class Game extends React.Component {
   }
 
 
+  //  ** 2.a). Define the 'jumpTo method' in Game to update that 'stepNumber'.
+  //  **   b). Set 'xIsNext' to true if the number that we’re changing 'stepNumber' to is even.
+
+    jumpTo(step) {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) === 0,
+      });
+    }
+
+
   /**
    * !  Update the Game comp’s render fn to use the most recent history entry
    * !  to determine & display the game’s status
@@ -247,7 +261,7 @@ class Game extends React.Component {
     const moves = history.map((step, move) => {
       const desc = move ? 'Go to move #' + move : 'Go to game start';
       return (
-        <li>
+        <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
