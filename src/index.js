@@ -107,6 +107,7 @@ class Board extends React.Component {
     super(props);
       this.state = {
         squares: Array(9).fill(null),
+        xIsNext: true,
       };
   }
 
@@ -122,8 +123,11 @@ class Board extends React.Component {
       modifying the existing array bcoz of Immutability */
 
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({ squares: squares });
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
   }
 
   /*To collect data from multiple children, or to have two child components communicate with each other,
@@ -150,7 +154,7 @@ class Board extends React.Component {
   };
 
   render() {
-    const status = 'Next player: X';
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     return (
       <div>

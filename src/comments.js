@@ -52,6 +52,8 @@
 
  */
 
+
+
 /**
  *              !Function Component
  *
@@ -65,3 +67,30 @@ returns what should be rendered.
 * Fn comps are less tedious to write than classes, & many components can be expressed this way.
 
  */
+
+
+
+ /**
+  *           !Taking Turns
+  *
+  * *We need to fix the obvious defect in our game: "O" can't be marked on the board.
+  *
+  *  Set the first move to be "X" by default. We can set this default by modifying the Initial State in our Board Constructor:
+  *     *set=> xIsNext: true,
+  *
+  *  Each time a player moves, xIsNext (a boolean) will be flipped to determine which player goes next & the game's state will be saved.
+  *  We'll update the Board's handleClick fn to flip the value of xIsNext:
+  *     *set=> this.setState({
+      **            squares: squares,
+      **            xIsNext: !this.state.xIsNext,
+      **          });
+      **      }
+  *     !With this changes, "X" and "O" can take turns.
+  *
+  * Let's also change the "Status" text in Board's #render so it displays which player has the next turn.
+  *     *   render() {
+       **       const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+
+        **       return (
+        * the rest has not changed
+  */
