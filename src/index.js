@@ -98,21 +98,28 @@ class Board extends React.Component {
     Board Comp instead of in each Square- child. Board(parent) will then tell each Square(Child)
     what to display by passing a prop.*/
 
-  constructor(props) {
+    /**
+     *!Step.1) Delete the Constructor in Board
+     */
+
+/* constructor(props) {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true
     };
   };
-
+*/
   // *Our handleClick is a Custom method- it can have any name & code would still work the same;
 
   /*  Since the Square components no longer maintain state, the Square components receive values
       from the Board component and inform the Board component when they’re clicked. In React terms,
       the Square components are now controlled components. The Board has full control over them. */
 
-  handleClick(i) {
+  /**
+   * ! Move the handleClick method from the Board Component to the Game Component.
+   */
+  // handleClick(i) {
 
     /* We call .slice() on handleClick to creat a copy of the squares array to modify instead of
       modifying the existing array bcoz of Immutability */
@@ -123,7 +130,7 @@ class Board extends React.Component {
        * *someone has won the game or if a Square is already filled:
        */
 
-    const squares = this.state.squares.slice();
+/* const squares = this.state.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -132,7 +139,7 @@ class Board extends React.Component {
       squares: squares,
       xIsNext: !this.state.xIsNext
     });
-  };
+  };  */
 
   /*To collect data from multiple children, or to have two child components communicate with each other,
   you need to declare the shared state in their parent component instead. The parent component can pass
@@ -149,33 +156,27 @@ class Board extends React.Component {
       are filled. We need to create a way for the Square to update the Board’s state. Since state is considered to
       be private to a component that defines it, we cannot update the Board’s state directly from Square. */
 
+      /**
+       *! Step 2) Replace #this.state.square[i] with => this.props.square[i]
+
+       *! Step 3) Replace #this.handleClick(i) with => this.props.onClick(i)
+       */
+
       <Square
-        value={this.state.squares[i]}
-        /* we’ll pass down a fn from the Board to the Square, have Square call that fn when a square is clicked.*/
-        onClick={() => this.handleClick(i)}
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
+        // we’ll pass down a fn from the Board to the Square, have Square call that fn when a square is clicked.
       />
     );
   };
 
-
-  /**
-   * *We will call calculateWinner(squares) in the Board’s render function to check if a player has won.
-   * *If a player has won, we can display text such as “Winner: X” or “Winner: O”.
-   */
+/**
+    * ! Our Board's render Function after refactoring.
+    */
 
   render() {
-    const winner = calculateWinner(this.state.squares);
-    let status;
-    if (winner) {
-      status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.xIsNext ? "X" : "O");
-    }
-
-
     return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -196,6 +197,7 @@ class Board extends React.Component {
   };
 };
 
+
 // Game Component
 class Game extends React.Component {
   constructor(props) {
@@ -207,15 +209,59 @@ class Game extends React.Component {
       xIsNext: true,
     };
   }
-  
+
+
+  /**
+   * ! Move the handleClick method from the Board Component to the Game Component.
+   * ! Also modify handleClick bcoz the Game component’s state is structured differently.
+   * ! Within the Game’s handleClick method, we concatenate new history entries onto history.
+   */
+  handleClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? "X" : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares
+      }]),
+      xIsNext: !this.state.xIsNext,
+    });
+  }
+
+
+  /**
+   * !  Update the Game comp’s render fn to use the most recent history entry
+   * !  to determine & display the game’s status
+   */
+
   render() {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const winner = calculateWinner(current.squares);
+
+    let status;
+    if (winner) {
+      status = 'Winner' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
+
+
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
+
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{ status }</div>
           <ol>{/* TODO */}</ol>
         </div>
       </div>

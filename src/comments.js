@@ -139,7 +139,7 @@ returns what should be rendered.
  */
 
 
- /**
+/**
   *                                 !LIFTING STATE UP- PART 2
   *
   *     We’ll want the top-level 'Game component' to display a list of past moves.
@@ -154,4 +154,30 @@ returns what should be rendered.
   *
   * *   Next, we’ll have the Board component receive squares and onClick props from the Game component.
   *
+  *     Since we now have a single click handler in Board for many Squares, we’ll need to pass the location of each Square into the onClick handler
+  *     to indicate which Square was clicked.
+  *
+  *     Here are the required steps to transform the Board component:
+          **  Delete the constructor in Board.
+
+          **  Replace #this.state.squares[i] with => this.props.squares[i] in Board’s renderSquare.
+
+          **  Replace #this.handleClick(i) with => this.props.onClick(i) in Board’s renderSquare.
+
+          **  Update the Game component’s render function to use the most recent history entry
+          ** to determine and display the game’s status:
+
+    *!  Since the Game component is now rendering the game’s status, we can remove the corresponding code from the Board’s render method.
+
+    ** Finally, move the handleClick method from the Board component to the Game component.
+
+    ** Also modify handleClick bcoz the Game component’s state is structured differently.
+
+    ** Within the Game’s handleClick method, we concatenate new history entries onto history.
+
+    *! NOTE
+    ** Unlike the array push() method you might be more familiar with, the concat() method doesn’t mutate the original array, so we prefer it.
+  *
+  *  All the 'Board Comp' needs is the #renderSquare and #render methods. The 'game's state' & the #handleClick methods are already in the
+  *  Game component.
   */
