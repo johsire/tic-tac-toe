@@ -94,3 +94,46 @@ returns what should be rendered.
         **       return (
         * the rest has not changed
   */
+
+
+
+/**
+ *                                    !ADDING TIME TRAVEL
+ *
+ *  If we mutated the squares array, implementing time travel would be very difficult.
+ *
+ *  Since we use #slice() to create a copy of the #squares array after each move, & treated it as #immutable. It's now possible to
+ * store every past version of the #squares array, & navigate btwn turns that have already happened.
+ *
+ *  We'll store the past #squares array in another array called #history. It will represent all board states, from the 1st to the
+ * last move. & has a shape like this.
+ *                                     history = [
+                                            ** Before first move
+                                            {
+                                                squares: [
+                                                null, null, null,
+                                                null, null, null,
+                                                null, null, null,
+                                                ]
+                                            },
+                                            ** After first move
+                                            {
+                                                squares: [
+                                                null, null, null,
+                                                null, 'X', null,
+                                                null, null, null,
+                                                ]
+                                            },
+                                            ** After second move
+                                            {
+                                                squares: [
+                                                null, null, null,
+                                                null, 'X', null,
+                                                null, null, 'O',
+                                                ]
+                                            },
+                                            ** ...and so on
+                                            ]
+
+    ** Now we need to decide which component should own the history state.
+ */
