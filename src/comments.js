@@ -181,3 +181,26 @@ returns what should be rendered.
   *  All the 'Board Comp' needs is the #renderSquare and #render methods. The 'game's state' & the #handleClick methods are already in the
   *  Game component.
   */
+
+
+/**
+ *                                  !SHOWING THE PAST MOVES
+ *
+ *  We are recording the tic-tac-toe game's history, so we can display it to the player as a list of past moves.
+ *
+ ** React elements are "JS First Class Objs"- We can pass them around as arguments in our apps.
+ ** To render multiple items in React, we can use an array of React elements.
+
+ ** JS arrays have a map() mthd that is commonly used for mapping data to other data.
+                e.g const numbers = [1, 2, 3, 4];
+                    const double  = numbers.map(x => x * 2);  // [2, 4, 6, 8];
+ *
+ * We can use the map mthd to map our #history of moves to React elements rep.ing btns on the screen & displaying a list
+ * of btns to 'jump' to past moves
+ *
+ ** Lets #map over the history in the #Game's render mthd.
+ *
+ *  For each move in the tic-tac-toes’s game’s #history, we create a list item <li> which contains a btn <button>.
+ *
+ *  The btn has a onClick handler which calls a mthd called this.jumpTo(). We haven't implemented the mthd yet.
+ */
