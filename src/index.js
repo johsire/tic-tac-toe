@@ -213,24 +213,20 @@ class Game extends React.Component {
     };
   }
 
-
-  /**
-   * ! Move the handleClick method from the Board Component to the Game Component.
-   * ! Also modify handleClick bcoz the Game component’s state is structured differently.
-   * ! Within the Game’s handleClick method, we concatenate new history entries onto history.
-   */
   handleClick(i) {
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+
     squares[i] = this.state.xIsNext ? "X" : 'O';
     this.setState({
       history: history.concat([{
         squares: squares
       }]),
+      stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
   }
@@ -246,15 +242,9 @@ class Game extends React.Component {
       });
     }
 
-
-  /**
-   * !  Update the Game comp’s render fn to use the most recent history entry
-   * !  to determine & display the game’s status
-   */
-
   render() {
     const history = this.state.history;
-    const current = history[history.length - 1];
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
     //!Let’s map over the history in the Game’s render method:

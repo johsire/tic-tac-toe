@@ -1,3 +1,42 @@
+/**
+ *                                  !WHAT IS REACT
+ *
+ **     React is a declarative, efficient, and flexible JavaScript library for building user interfaces.
+ **     It lets you compose complex UIs from small and isolated pieces of code called “components”.
+ *
+ * -   React has a few different kinds of components, but we’ll start with
+ **                React.Component subclasses.
+
+ */
+//=================================================================================================================================================
+/**
+ *                                  !PASSING DATA THROUGH PROPS
+ *
+ * * As an Example, let's pass data from our Board component to our Square component
+ *
+ * - In the Board's #renderSquare mthd, let's change the code to pass a prop called 'value' to the square:
+ *
+ *            class Board extends React.Component {
+ *              renderSquare(i) {
+                    return <Square value={i} />;
+ *               }
+ *
+ * - Let's change Square's #render mthd to show that 'value' - props being passed down
+ *
+ *            class Square extends React.Component {
+                render() {
+                    return (
+                    <button className="square">
+                        {this.props.value}
+                    </button>
+                    );
+                }
+                }
+ *
+ *
+ *
+ */
+//=================================================================================================================================================
 /*
                                     !WHY IMMUTABILITY IS IMPORTANT
 
@@ -51,9 +90,7 @@
     *https://reactjs.org/docs/optimizing-performance.html#examples
 
  */
-
-
-
+//=================================================================================================================================================
 /**
  *                                !FUNCTION COMPONENT
  *
@@ -67,9 +104,7 @@ returns what should be rendered.
 * Fn comps are less tedious to write than classes, & many components can be expressed this way.
 
  */
-
-
-
+//=================================================================================================================================================
 /**
   *                                  !TAKING TURNS
   *
@@ -94,9 +129,7 @@ returns what should be rendered.
         **       return (
         * the rest has not changed
   */
-
-
-
+//=================================================================================================================================================
 /**
  *                                    !ADDING TIME TRAVEL
  *
@@ -137,8 +170,7 @@ returns what should be rendered.
 
     ** Now we need to decide which component should own the history state.
  */
-
-
+//=================================================================================================================================================
 /**
   *                                 !LIFTING STATE UP- PART 2
   *
@@ -181,8 +213,7 @@ returns what should be rendered.
   *  All the 'Board Comp' needs is the #renderSquare and #render methods. The 'game's state' & the #handleClick methods are already in the
   *  Game component.
   */
-
-
+//=================================================================================================================================================
 /**
  *                                  !SHOWING THE PAST MOVES
  *
@@ -204,10 +235,9 @@ returns what should be rendered.
  *
  *  The btn has a onClick handler which calls a mthd called this.jumpTo(). We haven't implemented the mthd yet.
  */
-
-
+//=================================================================================================================================================
 /**
- *                                        !PICKING A KEY
+*                                        !PICKING A KEY
  *
  * !ERROR
  * !Warning: Each child in an array or iterator should have a unique “key” prop. Check the render method of “Game”.
@@ -241,10 +271,8 @@ returns what should be rendered.
 **  Explicitly passing 'key={i}' silences the warning but has the same problems as array indices(index) & is not recommended in most cases.
 *
 *!  "Keys" don't need to be globally unique; they only need to be unique btwn components & their siblings.
-//=================================================================================================================================================
  */
-
-
+//=================================================================================================================================================
 /**
   *                                     !IMPLEMENTING TIME TRAVEL
   *
@@ -261,4 +289,29 @@ returns what should be rendered.
  *
  ** 2.a). Define the jumpTo method in Game to update that stepNumber.
  **   b). Set xIsNext to true if the number that we’re changing stepNumber to is even.
+ *
+ *  Changes to be made to the Game's handleClick mthd which fires when you click on a square.
+ *
+ *  The #stepNumber state we've added reflects the move displayed to the user now.
+ *-  After we make a new move, we need to update stepNumber by adding
+ **     stepNumber: history.length as part of the this.setState argument.
+ *   This ensures we don’t get stuck showing the same move after a new one has been made.
+ *
+ *-  We also need to replace reading this.state.history with
+ **        this.state.history.slice(0, this.state.stepNumber + 1).
+ *- This ensures that if we "go back in time" & then make a new move from that point, we throw away all the "future" history
+ *- that would now become incorrect.
+ *
+ *  Finally we will modify the Game component's #render mthd from always rendering the last move to rendering the currently
+ * selected move according to #stepNumber
   */
+//=================================================================================================================================================
+/**
+   *                                !WRAPPING UP
+   *
+   * * What the Tic Tac Toe Game can do:
+   *    - Let's you play tic-tac-toe
+   *    - Indicates when a player has won the game
+   *    - Stores a game's history as a game progress
+   *    - Allows players to review a game's history & see previous versions of a game's board.
+   */
